@@ -38,7 +38,7 @@ interface MintNFTARgs {
 
 const creator_name = "amber1.legend";
 const creator_index = 4;
-export const collection_id = 22; // 133; // test
+export const collection_id = 51991;
 const nft_collection_id = 0;
 const creator_treasury_rate = 0;
 const gas_fee_asset_id = 0;
