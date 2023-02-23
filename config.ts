@@ -58,6 +58,6 @@ export const CAMP = [
 export const COIN = ["", "btc", "eth", "bnb", "avax", "matic"];
 
 export const ASSET_DATA = {
-  media: "collection/halknvf5arl5aisg1hml",
+  media: "collection/axqr3yl4uhr1p3w93zbe",
   url: "https://res.cloudinary.com/zecrey/image/upload/v1665317766/collection/halknvf5arl5aisg1hml.png",
 };
