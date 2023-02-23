@@ -31,25 +31,25 @@ const SetAvatar = (props: { close: () => void }) => {
     if (!val) throw new Error("Please select an avatar.");
     if (val === user.avatar) return props.close();
     try {
-      let timestamp = Math.floor(Date.now() / 1000);
-      console.log(user.banner, "banner");
-      let [signature, avatar, origin_banner] = await Promise.all([
-        proveUpdateAccount(timestamp, user.name),
-        getOriginID("avatar", val),
-        getOriginID("banner", user.banner),
-      ]);
-      await updateAccount({
-        signature,
-        timestamp,
-        profile_image: avatar,
-        banner_image: origin_banner,
-        account_name: user.name, // account_name
-        bio: "", // bio
-        email: "", // email
-        external_link: links[0],
-        twitter_link: links[1],
-        instagram_link: links[2],
-      });
+      // let timestamp = Math.floor(Date.now() / 1000);
+      // console.log(user.banner, "banner");
+      // let [signature, avatar, origin_banner] = await Promise.all([
+      //   proveUpdateAccount(timestamp, user.name),
+      //   getOriginID("avatar", val),
+      //   getOriginID("banner", user.banner),
+      // ]);
+      // await updateAccount({
+      //   signature,
+      //   timestamp,
+      //   profile_image: avatar,
+      //   banner_image: origin_banner,
+      //   account_name: user.name, // account_name
+      //   bio: "", // bio
+      //   email: "", // email
+      //   external_link: links[0],
+      //   twitter_link: links[1],
+      //   instagram_link: links[2],
+      // });
       dispatch(
         updateUser({
           ...user,
