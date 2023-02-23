@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CenterFlex } from "styles/globals";
 import Note from "./note";
 import { Ranking, Wins } from "./statistics";
@@ -23,6 +23,13 @@ export default GameBox;
 
 const IFrame = () => {
   const dom = useRef<HTMLIFrameElement>(null);
+  const [ac, setAc] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAc(true);
+    }, 500);
+  }, []);
 
   useEffect(() => {
     if (dom.current)
@@ -39,7 +46,7 @@ const IFrame = () => {
     <GameWrap>
       <iframe
         ref={dom}
-        src="/web-desktop/index.html?wss://warrior.spacedreams.top"
+        src={ac ? "/web-desktop/index.html?wss://warrior.spacedreams.top" : ""}
       />
     </GameWrap>
   );
