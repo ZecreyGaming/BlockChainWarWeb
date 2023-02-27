@@ -106,6 +106,7 @@ const TextArea = () => {
       {
         player_id: user?.index,
         player_name: user?.name,
+        signed_message: temp,
         message: temp,
         timestamp: Date.now(),
       },
