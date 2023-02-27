@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addRecord } from "redux/feature/record";
 import { RootState } from "redux/store";
 import { CenterFlex } from "styles/globals";
+import { signMessage } from "utils/legend-api/proof";
 import {
   ChatListWrap,
   DisabledBtn,
@@ -98,15 +99,16 @@ const TextArea = () => {
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= 80) setVal(e.target.value);
   };
-  const submit = () => {
-    if (!val) return;
+  const submit = async () => {
+    if (!val || !user?.name) return;
     let temp = val.trim();
+    let msg = await signMessage(user.name, temp);
     net.request(
       "chat.message",
       {
         player_id: user?.index,
         player_name: user?.name,
-        signed_message: temp,
+        signed_message: msg,
         message: temp,
         timestamp: Date.now(),
       },

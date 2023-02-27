@@ -27,3 +27,26 @@ export const proveUpdateAccount = async (
     return (global as any).eddsaSign(seed, `${timestamp}update_account`);
   }
 };
+
+export const signMessage = async (
+  username: string,
+  msg: string
+): Promise<string> => {
+  const { type } = store.getState().wallet;
+  if (type === "Zecrey") {
+    return await (window as any).zecrey.request({
+      method: "legend_eddsaSign",
+      params: {
+        isLegend: true,
+        from: username,
+        msg,
+      },
+    });
+  } else {
+    let provider = getCurrentWeb3Provider(type);
+    if (!provider) throw new Error("No wallet found.");
+    let sig = await signMsg(provider);
+    let seed = generateLegendSeedFromSig(sig);
+    return (global as any).eddsaSign(seed, msg);
+  }
+};
