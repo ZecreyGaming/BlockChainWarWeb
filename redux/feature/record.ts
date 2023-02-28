@@ -19,14 +19,14 @@ export const recordSlice = createSlice({
         userindex: number;
       }>
     ) => {
-      if (
-        state.filter(
-          (i) =>
-            i.toLowerCase().includes(action.payload.chain) ||
-            i.toLowerCase().includes(action.payload.coin)
-        ).length > 0
-      )
-        mintNFT(action.payload.username, action.payload.userindex);
+      // if (
+      //   state.filter(
+      //     (i) =>
+      //       i.toLowerCase().includes(action.payload.chain) ||
+      //       i.toLowerCase().includes(action.payload.coin)
+      //   ).length > 0
+      // )
+      //   mintNFT(action.payload.username, action.payload.userindex);
       return [];
     },
   },

@@ -122,7 +122,7 @@ export const mintNFT = async (
   try {
     const media = ASSET_DATA.media;
     const index = await countCollectionItems(collection_id);
-    const nft_name = `Medal of Victory #${index}`;
+    const nft_name = `Medal of Victory #${Date.now()} #${index}`;
     const [nonce, nft_content_hash, bal] = await prepareData(to_name, nft_name);
     if (BigNumber.from(bal).lt(GAS_FEE_ASSET_AMOUNT)) {
       throw new Error("Admin has no enough fund for the gas fee.");
