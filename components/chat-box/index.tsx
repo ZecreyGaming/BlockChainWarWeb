@@ -3,6 +3,7 @@ import TokenIcon from "components/common/token-icon";
 import { net } from "components/ws";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { udpateRefresh } from "redux/feature/config";
 import { addRecord } from "redux/feature/record";
 import { RootState } from "redux/store";
 import { CenterFlex } from "styles/globals";
@@ -118,6 +119,9 @@ const TextArea = () => {
       }
     );
     setVal("");
+    setTimeout(() => {
+      dispatch(udpateRefresh(true));
+    }, 500);
   };
 
   if (!user) return <DisabledBtn>Wallet not connected</DisabledBtn>;
