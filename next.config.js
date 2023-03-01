@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: "/legend/:path*",
-        destination: "https://dev-legend-app.zecrey.com/:path*", // "https://test-legend-app.zecrey.com/:path*",
+        destination: "https://test-legend-app.zecrey.com/:path*",
       },
       {
         source: "/nft_url/:path*",
@@ -13,13 +13,11 @@ const nextConfig = {
       },
       {
         source: "/rpc/:path*",
-        destination:
-          "http://tf-dex-preview-validator-nlb-6fd109ac8b9d390a.elb.ap-northeast-1.amazonaws.com:8545/:path*",
+        destination: "https://data-seed-prebsc-1-s3.binance.org:8545/:path*",
       },
       {
         source: "/rpc",
-        destination:
-          "http://tf-dex-preview-validator-nlb-6fd109ac8b9d390a.elb.ap-northeast-1.amazonaws.com:8545",
+        destination: "https://data-seed-prebsc-1-s3.binance.org:8545",
       },
     ];
   },

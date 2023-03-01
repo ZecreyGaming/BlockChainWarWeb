@@ -15,7 +15,6 @@ const initialState: {
   expired_nft_timestamp: number | null;
   rpc: string;
   chain_id: string;
-  contract_address: string[];
 } = {
   url: BASE_URL,
   legend_url: LEGEND_URL,
@@ -24,7 +23,6 @@ const initialState: {
   expired_nft_timestamp: null,
   rpc: RPC_URL,
   chain_id: CHAIN_ID,
-  contract_address: [],
 };
 
 export const configSlice = createSlice({
@@ -46,9 +44,6 @@ export const configSlice = createSlice({
     updateExpiredNFTTimestamp: (state, action: PayloadAction<number>) => {
       state.expired_nft_timestamp = action.payload;
     },
-    updateContractAddress: (state, action: PayloadAction<string[]>) => {
-      state.contract_address = action.payload;
-    },
   },
 });
 
@@ -58,7 +53,6 @@ export const {
   updateTreasuryRate,
   updateSuffix,
   updateExpiredNFTTimestamp,
-  updateContractAddress,
 } = configSlice.actions;
 
 export default configSlice.reducer;

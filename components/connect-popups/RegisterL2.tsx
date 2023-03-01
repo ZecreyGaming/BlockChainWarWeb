@@ -23,19 +23,14 @@ import File from "assets/icons/file.svg";
 import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "redux/store";
-import { BigNumber, ethers } from "ethers";
-import {
-  getLegendRegisterPrice,
-  getUserAddress,
-  registerWithDiscount,
-} from "utils/register-l2";
+import { BigNumber } from "ethers";
+import { registerWithDiscount } from "utils/register-l2";
 import { formatUnits, isAddress } from "ethers/lib/utils";
-import { getLegendBasicInfo } from "utils/legend-api";
-import { updateContractAddress } from "redux/feature/config";
 import TokenIcon from "components/common/token-icon";
 import LoadingWrap from "components/common/modal/LoadingWrap";
 import { getUserByName } from "utils/connect-wallet";
 import { updateUser } from "redux/feature/wallet";
+import { SDK } from "@zecrey/zecrey-legend-js-sdk";
 
 const RegisterL2 = (props: { close: () => void }) => {
   const [value, setValue] = useState("");
@@ -56,6 +51,9 @@ const RegisterL2 = (props: { close: () => void }) => {
 
 export default RegisterL2;
 
+const sdk = new SDK();
+sdk.initial();
+
 const Form = (props: {
   value: string;
   setValue: (val: string) => void;
@@ -65,17 +63,7 @@ const Form = (props: {
   const [loading, setLoading] = useState("");
   const [err, setErr] = useState("");
   const [checked, setChecked] = useState("");
-  const { rpc, suffix, contract_address } = useSelector(
-    (state: RootState) => state.config
-  );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!contract_address.length)
-      getLegendBasicInfo()
-        .then((res) => dispatch(updateContractAddress(res.contract_addresses)))
-        .catch((err) => setErr(err.response.data || err.message));
-  }, [contract_address, dispatch]);
+  const { suffix } = useSelector((state: RootState) => state.config);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value;
@@ -83,45 +71,34 @@ const Form = (props: {
     setChecked("");
     let reg = new RegExp(/^[0-9a-zA-Z]*$/);
     if (reg.test(val) && val.length <= 32) props.setValue(val);
-    if (val && val.length < 5) setErr("Name too short. (5~32 characters)");
-    if (val && val.length >= 5 && val.length <= 32 && reg.test(val))
-      func(val, suffix, rpc, contract_address[0]);
+    if (val && val.length < 3) setErr("Name too short. (3~32 characters)");
+    if (val && val.length >= 3 && val.length <= 32 && reg.test(val))
+      func(val, suffix);
   };
 
   const func = useRef(
-    debounce(
-      async (value: string, suffix: string, rpc: string, contract: string) => {
-        if (!contract) return console.log("Contract not found yet.");
-        if (value.length < 5 || value.length > 32)
-          return console.log("Invalid length of name.");
-        if (!rpc) return setErr("No rpc url found.");
-        let provider = new ethers.providers.JsonRpcProvider(rpc);
-        if (!(global as any).getAccountNameHash)
-          return setErr("No wasm module found.");
-        setLoading("Checking Account ID…");
-        try {
-          let isTaken = await getUserAddress(
-            (global as any).getAccountNameHash(value + suffix),
-            provider,
-            contract
-          );
-          console.log(isTaken, "isTaken");
-          if (isAddress(isTaken) && isTaken !== ethers.constants.AddressZero) {
-            setErr(value + suffix + " already registered.");
-            setChecked("");
-          } else {
-            setChecked(value + suffix + " is available.");
-            setErr("");
-          }
-        } catch (err: any) {
-          setErr(err.message);
+    debounce(async (value: string, suffix: string) => {
+      if (value.length < 3 || value.length > 32)
+        return console.log("Invalid length of name.");
+      if (!(global as any).getAccountNameHash)
+        return setErr("No wasm module found.");
+      setLoading("Checking Account ID…");
+      try {
+        let isTaken = await sdk.ifAccountRegistered(value + suffix);
+        if (isTaken) {
+          setErr(value + suffix + " already registered.");
           setChecked("");
-        } finally {
-          setLoading("");
+        } else {
+          setChecked(value + suffix + " is available.");
+          setErr("");
         }
-      },
-      500
-    )
+      } catch (err: any) {
+        setErr(err.message);
+        setChecked("");
+      } finally {
+        setLoading("");
+      }
+    }, 500)
   ).current;
 
   return (
@@ -188,26 +165,21 @@ const Form = (props: {
 
 const Confirm = (props: { name: string; next: () => void }) => {
   const [price, setPrice] = useState("");
-  const { rpc, suffix, contract_address } = useSelector(
-    (state: RootState) => state.config
-  );
+  const { suffix } = useSelector((state: RootState) => state.config);
 
   const func = useRef(
-    debounce((name: string, rpc: string, contract: string) => {
-      if (!contract) return console.log("Contract not found yet.");
-      if (name.length < 5 || name.length > 32)
+    debounce((name: string) => {
+      if (name.length < 3 || name.length > 32)
         return console.log("Invalid length of name.");
-      if (!rpc) return console.log("No rpc url found.");
-      let provider = new ethers.providers.JsonRpcProvider(rpc);
-      getLegendRegisterPrice(props.name, provider, contract).then((res) =>
-        setPrice(formatUnits(BigNumber.from(res), 18))
-      );
+      sdk
+        .getRegisterFee(props.name)
+        .then((res) => setPrice(formatUnits(BigNumber.from(res), 18)));
     }, 100)
   ).current;
 
   useEffect(() => {
-    func(props.name, rpc, contract_address[1]);
-  }, [props.name, rpc, contract_address, func]);
+    func(props.name);
+  }, [props.name, func]);
 
   return (
     <>
@@ -237,15 +209,15 @@ const Confirm = (props: { name: string; next: () => void }) => {
           </div>
         </BetweenFlex>
       </Info>
-      <FreeText>
+      {/* <FreeText>
         <Gift />
         <div>
           Account ID is not free to register, but the first 10,000 register
           users will get a 100% discount, which means you can register for an{" "}
           <b>Account ID for free!</b>
         </div>
-      </FreeText>
-      <Total>
+      </FreeText> */}
+      {/* <Total>
         <div className="label">You will pay:</div>
         <CenterFlex>
           <div>
@@ -254,7 +226,7 @@ const Confirm = (props: { name: string; next: () => void }) => {
           </div>
           <TokenIcon chain="binance" size={40} />
         </CenterFlex>
-      </Total>
+      </Total> */}
       <Btn>
         <PrimaryBtn onClick={props.next}>Confirm</PrimaryBtn>
       </Btn>
@@ -265,14 +237,14 @@ const Confirm = (props: { name: string; next: () => void }) => {
 const Pending = (props: { name: string }) => {
   const [done, setDone] = useState<boolean | null>(null);
   const [err, setErr] = useState("");
-  const { selectedAddress, pk } = useSelector(
+  const { selectedAddress, pk, type } = useSelector(
     (state: RootState) => state.wallet
   );
   const dispatch = useDispatch();
 
   const register = useRef(
     debounce((name: string, addr: string, pk: string) => {
-      registerWithDiscount(name, pk, addr)
+      registerWithDiscount(name, pk, addr, type)
         .then(() => {
           let timer = setInterval(() => {
             getUserByName(name)
@@ -286,7 +258,7 @@ const Pending = (props: { name: string }) => {
         })
         .catch((err) => {
           setDone(false);
-          setErr(err.response.data || err.message);
+          setErr(err.response?.data || err.message);
         });
     }, 200)
   ).current;

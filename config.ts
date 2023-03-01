@@ -2,13 +2,13 @@ export const BASE_URL = "/nft_url";
 
 export const LEGEND_URL = "/legend";
 
-export const DEFAULT_SUFFIX = ".legend";
+export const DEFAULT_SUFFIX = ".zec";
 
 export const RPC_URL = "/rpc";
 
-export const CHAIN_ID = "0x30";
+export const CHAIN_ID = "0x61";
 
-export const GQL_API = "https://legend-market-dev.hasura.app/v1/graphql"; //"https://legend-marketplace.hasura.app/v1/graphql";
+export const GQL_API = "https://legend-marketplace.hasura.app/v1/graphql";
 
 export const CONTENT_TO_SIGN = (address: string) => `Welcome to Zecrey!
 
@@ -21,7 +21,7 @@ This request will not trigger a blockchain transaction or cost any gas fees.
 Wallet address:
 ${address}`;
 
-export const CHAINS = ["0x30"];
+export const CHAINS = ["0x61"];
 
 export const DEFAULT_TOKEN = { symbol: "BNB", decimal: 18, asset_id: 0 };
 
