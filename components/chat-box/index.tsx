@@ -119,9 +119,9 @@ const TextArea = () => {
       }
     );
     setVal("");
-    setTimeout(() => {
-      dispatch(udpateRefresh(true));
-    }, 500);
+    // setTimeout(() => {
+    //   dispatch(udpateRefresh(true));
+    // }, 500);
   };
 
   if (!user) return <DisabledBtn>Wallet not connected</DisabledBtn>;
