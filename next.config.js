@@ -34,6 +34,7 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_GQL_KEY: process.env.NEXT_PUBLIC_GQL_KEY,
     NEXT_PUBLIC_SEED: process.env.NEXT_PUBLIC_SEED,
+    NEXT_GAME_API_URL:process.env.NEXT_GAME_API_URL,
   },
   swcMinify: true,
 };

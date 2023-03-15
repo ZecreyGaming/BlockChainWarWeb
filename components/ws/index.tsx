@@ -23,7 +23,7 @@ const WSProvider = (props: { children: ReactNode }) => {
             (user: Profile) => {
                 net.init(
                     {
-                        url: "wss://warrior.spacedreams.top",
+                        url: process.env.NEXT_GAME_API_URL,
                         package: new PackageBase(),
                         message: new MessageBase(),
                         protocol: new ProtocolBase(),
