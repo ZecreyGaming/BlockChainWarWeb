@@ -2,7 +2,20 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, create the `.env` file
+
+```bash
+  cd BlockChainWarWeb/ && cp .env.example .env
+```
+
+Modify the `.env` file to configure your information, following is an example:
+
+```bash
+   NEXT_GAME_API_URL=ws://127.0.0.1:3250  //Background server address
+   NEXT_PUBLIC_GQL_KEY= <hasura key>     
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
