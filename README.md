@@ -24,8 +24,6 @@ npm run dev
 yarn dev
 ```
 
-if you use the 'yarn dev' command, install yarn click [here](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
-
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
