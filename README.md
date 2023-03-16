@@ -12,7 +12,7 @@ Modify the `.env` file to configure your information, following is an example:
 
 ```bash
    NEXT_GAME_API_URL=ws://127.0.0.1:3250  //Background server address
-   NEXT_PUBLIC_GQL_KEY= <hasura key>     
+   NEXT_PUBLIC_GQL_KEY= j76XNG0u72QWBt4gS167wJlhnFNHSI5A6R1427KGJyMrFWI7s8wOvz1vmA4DsGos     
 ```
 Second, this is a node project, pre-installed version 16 and above of the node, click [here](https:/odejs.org/zh-cn/download/) to download
 
@@ -24,14 +24,7 @@ npm run dev
 yarn dev
 ```
 
-If you use 'npm run dev', here's the following:
-```bash
-> blockchain-war@0.1.0 dev
-> next dev
-
-sh: next: command not found
-```
-Please use the 'yarn dev' command, install yarn click [here](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
+if you use the 'yarn dev' command, install yarn click [here](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
