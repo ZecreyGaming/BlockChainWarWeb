@@ -12,7 +12,7 @@ Modify the `.env` file to configure your information, following is an example:
 
 ```bash
    NEXT_GAME_API_URL=ws://127.0.0.1:3250  //Background server address
-   NEXT_PUBLIC_GQL_KEY= j76XNG0u72QWBt4gS167wJlhnFNHSI5A6R1427KGJyMrFWI7s8wOvz1vmA4DsGos     
+   NEXT_PUBLIC_GQL_KEY= zecreyLegendTest@Hasura     
 ```
 Second, this is a node project, pre-installed version 16 and above of the node, click [here](https:/odejs.org/zh-cn/download/) to download
 
