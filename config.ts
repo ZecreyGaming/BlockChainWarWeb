@@ -9,7 +9,7 @@ export const RPC_URL = "/rpc";
 export const CHAIN_ID = "0x61";
 
 // export const GQL_API = "https://legend-marketplace.hasura.app/v1/graphql";
-export const GQL_API = "http://hasura.zecrey.com/v1/graphql";
+export const GQL_API = "https://hasura.zecrey.com/v1/graphql";
 
 export const CONTENT_TO_SIGN = (address: string) => `Welcome to Zecrey!
 
